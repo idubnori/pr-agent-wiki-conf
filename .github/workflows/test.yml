@@ -1,0 +1,22 @@
+on:
+  pull_request:
+    # types: [opened, reopened, ready_for_review]
+  issue_comment:
+jobs:
+  pr_agent_job:
+    if: ${{ github.event.sender.type != 'Bot' }}
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+      contents: write
+    name: Test pr-agent-wiki-conf
+    steps:
+      - name: load wiki configs
+        uses: idubnori/pr-agent-wiki-conf@develop
+        env:
+          common_instructions: >-
+            - Please use Japanese in descriptions.
+      - name: echo env
+        run: |
+          printenv | grep extra_instructions

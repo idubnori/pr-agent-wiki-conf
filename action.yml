@@ -1,0 +1,76 @@
+name: 'PR-Agent Wiki Configuration Loader'
+description: 'Load .pr_agent.toml.md page and set to environment'
+inputs:
+  page-name:
+    description: 'toml page name'
+    required: false
+    default: '.pr_agent.toml.md'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+    - name: Install requests module
+      shell: bash
+      run: pip install requests toml
+    - name: Load configuraions and set to environment
+      shell: python
+      run: |
+        import os
+        import requests
+        import toml
+        import json
+        
+        ei_key = 'extra_instructions'
+        ei_sections = ['pr_reviewer', 'pr_description', 'pr_code_suggestions', 'pr_add_docs', 'pr_update_changelog', 'pr_test']
+        
+        repository_name = os.getenv('GITHUB_REPOSITORY')
+
+        def get_conf():
+            try:
+                # Get Wiki page
+                wiki_url = f"https://raw.githubusercontent.com/wiki/{repository_name}/${{ inputs.page-name }}"
+                headers = {'Authorization': f'token ${{ github.token }}'}
+                response = requests.get(wiki_url, headers=headers)
+                response.raise_for_status()
+        
+                # Analyze TOML content
+                toml_content = response.text
+                start = toml_content.find("```") + 3
+                end = toml_content.rfind("```")
+                toml_content = toml_content[start:end]
+        
+                toml = toml.loads(toml_content)
+                return toml
+        
+            except Exception as e:
+                print(f"Error: {e}")
+                return {}
+        
+        def add_common_instructions(toml):
+          common_instructions = os.getenv('common_instructions')
+          for key in ei_sections:
+            if key in toml:
+              if ei_key in toml[key]:
+                toml[key][ei_key] = (toml[key][ei_key] + '\n' + common_instructions).strip()
+              else:
+                toml[key][ei_key] = common_instructions
+            else:
+              toml[key] = {ei_key: common_instructions}
+        
+          return toml
+        
+        def set_to_env(toml):
+          github_env = os.getenv('GITHUB_ENV')
+          with open(github_env, "a") as outputfile:
+            for key in ei_sections:
+              print(f"{key}.{ei_key}={toml[key][ei_key]}",file=outputfile)
+        
+        if __name__ == "__main__":
+          toml_conf = get_conf()
+          added_toml_conf = add_common_instructions(toml_conf)
+          set_to_env(added_toml_conf)
+          
