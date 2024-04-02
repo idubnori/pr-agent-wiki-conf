@@ -13,14 +13,20 @@ runs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
-    - name: Install requests module
+    - name: Install modules
       shell: bash
-      run: pip install requests toml
+      run: pip install toml
+    - uses: actions/checkout@v4
+      with:
+        repository: ${{ github.repository }}.wiki
+        sparse-checkout: |
+          ${{ inputs.page-name }}
+        sparse-checkout-cone-mode: false
+        path: wiki_temp
     - name: Load configuraions and set to environment
       shell: python
       run: |
         import os
-        import requests
         import toml
         import json
         
@@ -31,20 +37,17 @@ runs:
 
         def get_conf():
           try:
-              # Get Wiki page
-              wiki_url = f"https://raw.githubusercontent.com/wiki/{repository_name}/${{ inputs.page-name }}"
-              #headers = {'Authorization': f'token ${{ github.token }}'}
-              response = requests.get(wiki_url) #TODO , headers=headers)
-              response.raise_for_status()
-      
-              # Analyze TOML content
-              toml_content = response.text
-              start = toml_content.find("```") + 3
-              end = toml_content.rfind("```")
-              toml_content = toml_content[start:end]
-      
-              parsed_toml = toml.loads(toml_content)
-              return parsed_toml
+              # Load Config file
+              with open("wiki_temp/${{ inputs.page-name }}", encoding="UTF-8") as f:
+                toml_content = f.read()
+
+                # Parse TOML content
+                start = toml_content.find("```") + 3
+                end = toml_content.rfind("```")
+                toml_content = toml_content[start:end]
+        
+                parsed_toml = toml.loads(toml_content)
+                return parsed_toml
       
           except Exception as e:
               print(f"Error: {e}")
