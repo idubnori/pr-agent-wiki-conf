@@ -31,7 +31,7 @@ runs:
         import json
         
         ei_key = 'extra_instructions'
-        ei_sections = ['pr_reviewer', 'pr_description', 'pr_code_suggestions', 'pr_add_docs', 'pr_update_changelog', 'pr_test']
+        ei_sections = ['pr_reviewer', 'pr_description', 'pr_code_suggestions', 'pr_add_docs', 'pr_update_changelog', 'pr_test', 'pr_improve_component']
         
         repository_name = os.getenv('GITHUB_REPOSITORY')
 
