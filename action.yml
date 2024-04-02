@@ -1,5 +1,8 @@
-name: 'PR-Agent Wiki Configuration Loader'
+name: 'PR Agent Wiki Configuration Loader'
 description: 'Load .pr_agent.toml.md in Wiki page and set to environment'
+branding:
+  icon: 'award'
+  color: 'green'
 inputs:
   page-name:
     description: 'toml page name'
