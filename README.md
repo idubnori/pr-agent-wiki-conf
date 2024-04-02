@@ -12,8 +12,8 @@ Note: current support is `extra_instructions` config only
 1. Set each extra_instructions to environment variables
 
 # How to Use
-- See details [GitHub Actions](https://github.com/idubnori/pr-agent-wiki-conf/actions)
 - Example of [.pr_agent.toml](https://github.com/idubnori/pr-agent-wiki-conf/wiki/.pr_agent.toml)
+- See details [GitHub Actions](https://github.com/idubnori/pr-agent-wiki-conf/actions)
 ```yaml
 on:
   pull_request:

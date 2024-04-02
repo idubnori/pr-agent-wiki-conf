@@ -1,5 +1,5 @@
 name: 'PR-Agent Wiki Configuration Loader'
-description: 'Load .pr_agent.toml.md page and set to environment'
+description: 'Load .pr_agent.toml.md in Wiki page and set to environment'
 inputs:
   page-name:
     description: 'toml page name'
