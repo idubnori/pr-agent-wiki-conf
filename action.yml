@@ -17,6 +17,7 @@ runs:
       shell: bash
       run: pip install toml
     - uses: actions/checkout@v4
+      continue-on-error: true # Continue even if repo is not existed
       with:
         repository: ${{ github.repository }}.wiki
         sparse-checkout: |
