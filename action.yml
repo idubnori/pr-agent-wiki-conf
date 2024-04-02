@@ -53,18 +53,18 @@ runs:
               print(f"Error: {e}")
               return {}
       
-        def add_common_instructions(persed_toml):
+        def add_common_instructions(parsed_toml):
           common_instructions = os.getenv('common_instructions')
           for key in ei_sections:
-            if key in persed_toml:
-              if ei_key in persed_toml[key]:
-                persed_toml[key][ei_key] = (persed_toml[key][ei_key]).strip() + '\n' + (common_instructions).strip()
+            if key in parsed_toml:
+              if ei_key in parsed_toml[key]:
+                parsed_toml[key][ei_key] = (parsed_toml[key][ei_key]).strip() + '\n' + (common_instructions).strip()
               else:
-                persed_toml[key][ei_key] = common_instructions
+                parsed_toml[key][ei_key] = common_instructions
             else:
-              persed_toml[key] = {ei_key: common_instructions}
+              parsed_toml[key] = {ei_key: common_instructions}
         
-          return persed_toml
+          return parsed_toml
         
         def set_to_env(parsed_toml):
           github_env = os.getenv('GITHUB_ENV')
