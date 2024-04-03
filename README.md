@@ -34,9 +34,9 @@ jobs:
         uses: idubnori/pr-agent-wiki-conf@main
         env:
           common_instructions: >-
-            - Please use Japanese in descriptions.
-          pr_code_suggestions.extra_instructions: >-
-            - Think about the need for changes or additions to the test code and make suggestions.
+            - Answer in Japanese.
+          pr_reviewer.extra_instructions: >-
+            - Additional second priority point: focus on the need for test code additions or changes to the application code changes.
       - name: PR Agent action step
         id: pragent
         uses: Codium-ai/pr-agent@main
