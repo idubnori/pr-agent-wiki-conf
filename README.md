@@ -2,13 +2,14 @@
 Community version of [PR-Agent Wiki configuration file](https://pr-agent-docs.codium.ai/usage-guide/configuration_options/#wiki-configuration-file)
 
 # Why?
-[PR-Agent Wiki configuration file](https://pr-agent-docs.codium.ai/usage-guide/configuration_options/#wiki-configuration-file) feature is currently only available in the paid version ([PR-Agent Pro](https://www.codium.ai/pricing/))
+- [PR-Agent Wiki configuration file](https://pr-agent-docs.codium.ai/usage-guide/configuration_options/#wiki-configuration-file) feature is currently only available in the paid version ([PR-Agent Pro](https://www.codium.ai/pricing/))
+- Provides functionality to make it easier to set and manage common `extra_instructions`
 
 # How does it work
 Note: current support is `extra_instructions` config only
 
 1. Load `.pr_agent.toml` configuration from Wiki page
-1. Add `common_instructions` into each extra_instructions configs
+1. Merge `common_instructions` and the env `extra_instructions` with the Wiki config value
 1. Set each extra_instructions to environment variables
 
 # How to Use
@@ -33,6 +34,8 @@ jobs:
         env:
           common_instructions: >-
             - Please use Japanese in descriptions.
+          pr_code_suggestions.extra_instructions: >-
+            - Think about the need for changes or additions to the test code and make suggestions.
       - name: PR Agent action step
         id: pragent
         uses: Codium-ai/pr-agent@main
