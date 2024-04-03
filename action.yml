@@ -60,7 +60,7 @@ runs:
         def concat_env_value(parsed_toml):
           common_instructions = os.getenv('common_instructions')
           for key in ei_sections:
-            additional_instructions = os.getenv(f"{key}.{ei_key}", None).strip() + '\n' + common_instructions
+            additional_instructions = os.getenv(f"{key}.{ei_key}", '').strip() + '\n' + common_instructions
             if key in parsed_toml:
               if ei_key in parsed_toml[key]:
                 parsed_toml[key][ei_key] = (parsed_toml[key][ei_key]).strip() + '\n' + additional_instructions
