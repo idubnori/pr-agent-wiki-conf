@@ -60,7 +60,7 @@ runs:
         def concat_env_value(parsed_toml):
           common_instructions = os.getenv('common_instructions')
           for key in ei_sections:
-            additional_instructions = os.getenv(f"{key}.{ei_key}", '').strip() + '\n' + common_instructions
+            additional_instructions = (os.getenv(f"{key}.{ei_key}", '').strip() + '\n' + (common_instructions).strip()).strip()
             if key in parsed_toml:
               if ei_key in parsed_toml[key]:
                 parsed_toml[key][ei_key] = (parsed_toml[key][ei_key]).strip() + '\n' + additional_instructions
@@ -75,9 +75,11 @@ runs:
           github_env = os.getenv('GITHUB_ENV')
           with open(github_env, "a") as outputfile:
             for key in ei_sections:
-              print(f"{key}.{ei_key}<<EOF",file=outputfile)
-              print(f"{parsed_toml[key][ei_key]}",file=outputfile)
-              print(f"EOF",file=outputfile)
+              value = parsed_toml.get(key, {}).get(ei_key)
+              if value not in ('', None):
+                  print(f"{key}.{ei_key}<<EOF", file=outputfile)
+                  print(f"{value}", file=outputfile)
+                  print(f"EOF", file=outputfile)
         
         if __name__ == "__main__":
           toml_conf = get_conf()
