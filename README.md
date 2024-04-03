@@ -3,6 +3,7 @@ Community version of [PR-Agent Wiki configuration file](https://pr-agent-docs.co
 
 # Why?
 - [PR-Agent Wiki configuration file](https://pr-agent-docs.codium.ai/usage-guide/configuration_options/#wiki-configuration-file) feature is currently only available in the paid version ([PR-Agent Pro](https://www.codium.ai/pricing/))
+- This Composite Action provides functionality similar to the PR-Agent Wiki Configuration feature as Open Source
 - Provides functionality to make it easier to set and manage common `extra_instructions`
 
 # How does it work
