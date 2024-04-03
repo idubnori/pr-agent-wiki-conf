@@ -17,6 +17,8 @@ jobs:
         env:
           common_instructions: >-
             - Please use Japanese in descriptions.
+          pr_code_suggestions.extra_instructions: >-
+            - Think about the need for changes or additions to the test code and make suggestions.
       - name: PR Agent action step
         id: pragent
         uses: Codium-ai/pr-agent@main
