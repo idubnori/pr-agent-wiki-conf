@@ -54,16 +54,17 @@ runs:
               print(f"Error: {e}")
               return {}
       
-        def add_common_instructions(parsed_toml):
+        def concat_env_value(parsed_toml):
           common_instructions = os.getenv('common_instructions')
           for key in ei_sections:
+            additional_instructions = os.getenv(f"{key}.{ei_key}", None).strip() + '\n' + common_instructions
             if key in parsed_toml:
               if ei_key in parsed_toml[key]:
-                parsed_toml[key][ei_key] = (parsed_toml[key][ei_key]).strip() + '\n' + (common_instructions).strip()
+                parsed_toml[key][ei_key] = (parsed_toml[key][ei_key]).strip() + '\n' + additional_instructions
               else:
-                parsed_toml[key][ei_key] = common_instructions
+                parsed_toml[key][ei_key] = additional_instructions
             else:
-              parsed_toml[key] = {ei_key: common_instructions}
+              parsed_toml[key] = {ei_key: additional_instructions}
         
           return parsed_toml
         
@@ -77,6 +78,6 @@ runs:
         
         if __name__ == "__main__":
           toml_conf = get_conf()
-          added_toml_conf = add_common_instructions(toml_conf)
+          added_toml_conf = concat_env_value(toml_conf)
           set_to_env(added_toml_conf)
           
