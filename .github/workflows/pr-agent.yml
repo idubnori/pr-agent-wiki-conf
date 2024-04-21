@@ -13,7 +13,7 @@ jobs:
     name: Test pr-agent-wiki-conf
     steps:
       - name: PR-Agent Wiki Configuration
-        uses: idubnori/pr-agent-wiki-conf@develop
+        uses: idubnori/pr-agent-wiki-conf@work/nori/use-gh-api-1
         env:
           common_instructions: >-
             - Answer in Japanese.
