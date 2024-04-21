@@ -24,11 +24,8 @@ runs:
       continue-on-error: true # Continue even if repo or file is not existed
       run: |
         mkdir -p wiki_temp
-        gh api \
-        -H "Accept: application/vnd.github.raw" \
-        repos/${{ github.repository }}.wiki/contents/${{ inputs.page-name }} > wiki_temp/${{ inputs.page-name }}
-      env:
-        GH_TOKEN: ${{ github.token }}
+        cd wiki_temp
+        git checkout https://github.com/${{ github.repository }}.wiki.git -- ./${{ inputs.page-name }}
     - name: Load configuraions and set to environment
       shell: python
       run: |
