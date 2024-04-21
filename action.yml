@@ -27,6 +27,8 @@ runs:
         gh api \
         -H "Accept: application/vnd.github.raw" \
         repos/${{ github.repository }}.wiki/contents/${{ inputs.page-name }} > wiki_temp/${{ inputs.page-name }}
+      env:
+        GH_TOKEN: ${{ github.token }}
     - name: Load configuraions and set to environment
       shell: python
       run: |
